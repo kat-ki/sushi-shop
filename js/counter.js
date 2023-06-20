@@ -12,8 +12,22 @@ window.addEventListener('click', function (event) {
     }
 
     if (event.target.dataset.action === 'minus') { // check if clicked element is Minus button - from parent element to child element
+
         if (parseInt(counter.innerText) > 1) { // counter should be more than 1 to be decremented
             counter.innerText = --counter.innerText;
+
+            // find and remove items in cart by setting counter to zero - only in the cart
+        } else if (event.target.closest('.cart-wrapper') && parseInt(counter.innerText) === 1) {
+            event.target.closest('.cart-item').remove();
+
+            toggleCartStatus();
+            cartPriceCalc();
         }
     }
-});
+
+    // check if + or - inside the cart clicked
+    if(event.target.hasAttribute('[data-action') && event.target.closest('.cart-wrapper')) {
+        cartPriceCalc();
+    }
+})
+;
